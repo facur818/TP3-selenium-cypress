@@ -1,0 +1,24 @@
+{
+  "name": "App DEMO",
+  "version": "1.0.0",
+  "description": "Cypress y Selenium",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "e2e",
+    "selenium",
+    "cypress",
+    "testing"
+  ],
+  "author": "DLL UTN",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "cypress": "^15.16.0"
+  }
+}

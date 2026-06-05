@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alta de Producto - App E2E Demo</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1f2937;
+      --primary: #0f766e;
+      --danger: #b91c1c;
+      --success: #166534;
+      --border: #d1d5db;
+    }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      background: radial-gradient(circle at 80% 20%, #ccfbf1 0%, var(--bg) 35%);
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .panel {
+      width: 100%;
+      max-width: 460px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 18px 35px rgba(15, 118, 110, 0.15);
+    }
+    h1 { margin-top: 0; }
+    .group { margin-bottom: 12px; }
+    label { display: block; margin-bottom: 6px; font-weight: 600; }
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .error {
+      min-height: 18px;
+      color: var(--danger);
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+    .status {
+      min-height: 22px;
+      margin: 8px 0 10px;
+      font-weight: 600;
+    }
+    .status.success { color: var(--success); }
+    .status.error { color: var(--danger); }
+    .nav {
+      display: inline-block;
+      margin-top: 10px;
+      color: #4b5563;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <main class="panel" data-testid="producto-card">
+    <h1>Alta de Producto</h1>
+
+    <form id="productForm" novalidate>
+      <div class="group">
+        <label for="codigo">Codigo</label>
+        <input id="codigo" name="codigo" type="text" data-testid="producto-codigo" />
+        <div id="codigoError" class="error" data-testid="producto-codigo-error"></div>
+      </div>
+
+      <div class="group">
+        <label for="nombre">Nombre</label>
+        <input id="nombre" name="nombre" type="text" data-testid="producto-nombre" />
+        <div id="nombreError" class="error" data-testid="producto-nombre-error"></div>
+      </div>
+
+      <div class="group">
+        <label for="precio">Precio</label>
+        <input id="precio" name="precio" type="number" data-testid="producto-precio" />
+        <div id="precioError" class="error" data-testid="producto-precio-error"></div>
+      </div>
+
+      <div class="group">
+        <label for="stock">Stock</label>
+        <input id="stock" name="stock" type="number" data-testid="producto-stock" />
+        <div id="stockError" class="error" data-testid="producto-stock-error"></div>
+      </div>
+
+      <div id="statusMsg" class="status" data-testid="producto-status"></div>
+      <button type="submit" data-testid="producto-submit">Agregar</button>
+    </form>
+
+    <a class="nav" href="/" data-testid="back-home">Volver al inicio</a>
+  </main>
+
+  <script src="/js/producto.js"></script>
+</body>
+</html>
