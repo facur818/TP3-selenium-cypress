@@ -97,17 +97,30 @@ describe("Productos", () => {
     // de codigo duplicado.
 
     it("Producto codigo duplicado", () => {
-        cy.visit(`${BASE_URL}/producto.html`);
+    cy.visit(`${BASE_URL}/producto.html`);
 
-        cy.get('[data-testid="producto-codigo"]').type("EXISTENTE");
-        cy.get('[data-testid="producto-nombre"]').type("Producto Duplicado");
-        cy.get('[data-testid="producto-precio"]').type("100");
-        cy.get('[data-testid="producto-stock"]').type("5");
+    // Primer producto con codigo PRD001
+    cy.get('[data-testid="producto-codigo"]').type("PRD001");
+    cy.get('[data-testid="producto-nombre"]').type("Notebook");
+    cy.get('[data-testid="producto-precio"]').type("1000");
+    cy.get('[data-testid="producto-stock"]').type("10");
+    cy.get('[data-testid="producto-submit"]').click();
 
-        cy.get('[data-testid="producto-submit"]').click();
+    cy.get('[data-testid="producto-status"]')
+        .should("contain.text", "Producto cargado en API");
 
-        cy.get('[data-testid="producto-status"]').should("contain.text", "Datos invalidos.");
-        cy.get('[data-testid="producto-codigo-error"]').should("have.text", "El codigo ya existe.");
+    // Segundo producto con mismo codigo PRD001
+    cy.get('[data-testid="producto-codigo"]').clear().type("PRD001");
+    cy.get('[data-testid="producto-nombre"]').clear().type("Heladera");
+    cy.get('[data-testid="producto-precio"]').clear().type("100");
+    cy.get('[data-testid="producto-stock"]').clear().type("5");
+    cy.get('[data-testid="producto-submit"]').click();
+
+    cy.get('[data-testid="producto-status"]')
+        .should("contain.text", "Datos invalidos.");
+
+    cy.get('[data-testid="producto-codigo-error"]')
+        .should("have.text", "El codigo ya existe.");
     });
 
 });

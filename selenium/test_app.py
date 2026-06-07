@@ -50,16 +50,6 @@ def test_login_credenciales_invalidas(driver):
     assert status.text == "Usuario o contrasena incorrectos"
     assert "incorrect" in status.text.lower()
 
-def test_producto_alta_exitosa(driver):
-    driver.get(f"{BASE_URL}/producto.html")
-    driver.find_element(By.CSS_SELECTOR, '[data-testid="producto-codigo"]').send_keys("PRD001")
-    driver.find_element(By.CSS_SELECTOR, '[data-testid="producto-nombre"]').send_keys("Notebook")
-    driver.find_element(By.CSS_SELECTOR, '[data-testid="producto-precio"]').send_keys("1000")
-    driver.find_element(By.CSS_SELECTOR, '[data-testid="producto-stock"]').send_keys("10")
-    driver.find_element(By.CSS_SELECTOR, '[data-testid="producto-submit"]').click()
-    WebDriverWait(driver, 5).until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, '[data-testid="producto-status"]'),'Producto cargado en API'))
-    status = driver.find_element(By.CSS_SELECTOR, '[data-testid="producto-status"]')
-    assert status.text == "Producto cargado en API"
 
 def test_producto_validacion_campos(driver):
     #Deberia loguearme primero, pero actualmente el producto.html no tiene proteccion de acceso, asi que lo dejo asi
@@ -99,10 +89,22 @@ def test_stock_producto_negativo(driver):
 #CASOS NEGATIVOS DE NEGOCIO
 def test_producto_codigo_duplicado(driver):
     driver.get(f"{BASE_URL}/producto.html")
-    driver.find_element(By.CSS_SELECTOR, '[data-testid="producto-codigo"]').send_keys("EXISTENTE")
-    driver.find_element(By.CSS_SELECTOR, '[data-testid="producto-nombre"]').send_keys("Producto Duplicado")
+
+    #Primer producto con codigo PRD001
+    driver.find_element(By.CSS_SELECTOR, '[data-testid="producto-codigo"]').send_keys("PRD001")
+    driver.find_element(By.CSS_SELECTOR, '[data-testid="producto-nombre"]').send_keys("Notebook")
+    driver.find_element(By.CSS_SELECTOR, '[data-testid="producto-precio"]').send_keys("1000")
+    driver.find_element(By.CSS_SELECTOR, '[data-testid="producto-stock"]').send_keys("10")
+    driver.find_element(By.CSS_SELECTOR, '[data-testid="producto-submit"]').click()
+    
+    WebDriverWait(driver, 5).until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, '[data-testid="producto-status"]'),'Producto cargado en API'))
+
+    #Segundo producto con mismo codigo PRD001
+    driver.find_element(By.CSS_SELECTOR, '[data-testid="producto-codigo"]').send_keys("PRD001")
+    driver.find_element(By.CSS_SELECTOR, '[data-testid="producto-nombre"]').send_keys("Heladera")
     driver.find_element(By.CSS_SELECTOR, '[data-testid="producto-precio"]').send_keys("100")
     driver.find_element(By.CSS_SELECTOR, '[data-testid="producto-stock"]').send_keys("5")
     driver.find_element(By.CSS_SELECTOR, '[data-testid="producto-submit"]').click()
+
     codigo_error = WebDriverWait(driver, 5).until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, '[data-testid="producto-codigo-error"]'),'Datos invalidos.'))
     assert codigo_error.text == "El codigo ya existe."
